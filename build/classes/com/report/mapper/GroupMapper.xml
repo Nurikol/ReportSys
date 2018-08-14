@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.GroupMapper">
+	<!-- 添加分组 -->
+	<insert id="addGroup" parameterType="groups">
+		insert into
+		groups(name,leader,member,ids) values(#{name},#{leader},#{member},#{ids})
+	</insert>
+
+	<!-- 查询全部分组 -->
+	<select id="findAllGroup" resultType="groups">
+		select * from groups
+	</select>
+	
+	<!-- 获取分组数量 -->
+	<select id="getGroupCount" resultType="int">
+		select count(*) from groups
+	</select>
+	
+	<!-- 查询用户所在的小组 -->
+	<select id="findMyGroups" parameterType="String" resultType="groups">
+		select * from groups where ids like '%${_parameter}%'
+	</select>
+	
+	<!-- 删除当前显示小组 -->
+	<delete id="deleteGroup" parameterType="int">
+	    delete groups from groups where id=#{id}
+	</delete>
+	
+	<!-- 更新小组信息 -->
+	<update id="updateGroups" parameterType="Groups">
+		update groups set name=#{name},leader=#{leader},member=#{member},ids=#{ids} where id=#{id}
+	</update>
+	
+	<!--查询当前小组  -->
+	<select id="findThisGroup" parameterType="int" resultType="groups">
+		select * from groups where id=#{id}
+	</select>
+	
+	<!-- 根据项目负责小组ID 查询小组信息(为了展示)-->
+	<select id="getGroupByID" parameterType="int" resultType="groups">
+		SELECT  * FROM groups where id = ${id}
+	</select>
+</mapper>

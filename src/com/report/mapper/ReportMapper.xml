@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.ReportMapper">
+
+
+	<!-- 添加周报 -->
+	<insert id="addWeeklyReport" parameterType="Weeklyreport">
+		insert into
+		weeklyreport(weekDate,userID,projectID,problem,summary,solution,nextPlan,futureSolution)
+		values(#{weekDate},#{userID},#{projectID},#{problem},#{summary},#{solution},#{nextPlan},#{futureSolution})
+	</insert>
+
+	<!-- 查询所有日报 -->
+	<select id="findAllDailyReport" resultType="Dailyreport">
+		SELECT * FROM
+		dailyreport
+	</select>
+
+	<!-- 查询所有周报 -->
+	<select id="findAllWeeklyReport" resultType="Weeklyreport">
+		SELECT * FROM
+		weeklyreport
+	</select>
+
+	<!-- 添加日报 -->
+
+	<!-- 查找当天周报是否存在 -->
+	<select id="findTodayWeeklyReport" resultType="Weeklyreport">
+		select * from
+		weeklyreport
+		where weekDate=#{param1} and userID=#{param2} and
+		projectID=#{param3}
+	</select>
+
+	<!-- 更新周报 -->
+	<update id="updateWeeklyReport" parameterType="Weeklyreport">
+		update
+		weeklyreport set
+		problem=#{problem},summary=#{summary},solution=#{solution},nextPlan=#{nextPlan},futureSolution=#{futureSolution}
+		where weekDate=#{weekDate} and userID=#{userID} and
+		projectID=#{projectID}
+	</update>
+
+	<!-- 根据用户ID和项目ID获取周报列表 -->
+	<select id="getWeeklyReportByUserIDAndProjectID" parameterType="int"
+		resultType="Weeklyreport">
+		select * from weeklyreport
+		where userID=#{0} and
+		projectID=#{1}
+	</select>
+
+	<!-- 根据用户ID和项目ID获得周报列表 -->
+	<select id="getDailyReportByUserIDAndProjectID" parameterType="int"
+		resultType="Dailyreport">
+		select * from dailyreport
+		where userID=#{0} and
+		projectID=#{1}
+	</select>
+
+	<!--获取周报数量 -->
+	<select id="getWeeklyReportCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) from weeklyreport where
+		weekDate=#{weekDate}
+	</select>
+
+	<!--获取日报数量 -->
+	<select id="getDailyReportCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) from Dailyreport where Date=#{date}
+	</select>
+	<!-- 添加日报 -->
+	<insert id="addDailyReport" parameterType="Dailyreport">
+		insert into
+		dailyreport(userID,projectID,finishedContent,arrangement,Date)
+		values(#{userID},#{projectID},#{finishedContent},#{arrangement},#{date})
+	</insert>
+
+
+	<!-- 查找当天日报是否存在 -->
+	<select id="findTodayDailyReport" resultType="Dailyreport">
+		select * from
+		dailyreport
+		where Date=#{param1} and userID=#{param2} and
+		projectID=#{param3}
+	</select>
+
+	<!-- 查找今天所有日报 -->
+	<select id="findTodayAllDailyReport" resultType="Dailyreport">
+		select * from
+		dailyreport
+		where Date=#{param1} and userID=#{param2}
+	</select>
+
+	<!-- 更新日报 -->
+	<update id="updateDailyReport" parameterType="Dailyreport">
+		update dailyreport
+		set finishedContent=#{finishedContent},arrangement=#{arrangement}
+		where Date=#{date} and userID=#{userID} and
+		projectID=#{projectID}
+	</update>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.MeetingMapper">
+	<!-- 添加会议记录至数据库 -->
+	<insert id="addMeeting" parameterType="Meeting">
+		insert into
+		Meeting(Theme,meetingContent,meetingMember,recorder,meetingDate,otherMember,createTime)
+		values(#{Theme},#{meetingContent},#{meetingMember},#{recorder},#{meetingDate},#{otherMember},#{createTime})
+	</insert>
+
+	<!-- 从数据库中查找会议记录 -->
+	<select id="findAllMeetings" resultType="Meeting">
+		select * from meeting
+	</select>
+
+	<!-- 修改会议记录 -->
+	<update id="updateMeeting" parameterType="Meeting">
+		update Meeting set
+		Theme=#{Theme},meetingContent=#{meetingContent},meetingMember=#{meetingMember},recorder=#{recorder},meetingDate=#{meetingDate},otherMember=#{otherMember},createTime=#{createTime}
+		where id=#{id}
+	</update>
+
+	<!-- 根据id获取会议记录 -->
+	<select id="findMeetingByid" parameterType="int" resultType="Meeting">
+		select * from meeting where id=#{id}
+	</select>
+
+	<!-- 根据id删除会议记录 -->
+	<delete id="deleteMeeting" parameterType="int">
+		delete meeting from meeting where id=#{id}
+	</delete>
+
+</mapper>

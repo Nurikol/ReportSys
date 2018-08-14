@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.UserMapper">
+
+	<resultMap type="role" id="role">
+		<id property="id" column="roleId" />
+		<result property="name" column="roleName" />
+	</resultMap>
+
+	<!-- 根据帐号和密码获取用户 -->
+	<select id="getUserByAccountAndPass" parameterType="user"
+		resultType="user">
+		select * from user where account=#{account} and
+		password=#{password}
+	</select>
+
+	<!-- 添加用户 -->
+	<insert id="addUser" parameterType="user">
+		insert into
+		user(account,username,password)
+		values(#{account},#{username},#{password})
+	</insert>
+
+	<!-- 为用户分配角色 -->
+	<insert id="addUserRole">
+		INSERT INTO user_role (userId, roleId)
+		VALUES
+		(#{userId}, #{roleId});
+	</insert>
+
+	<!--获取用户数量 -->
+	<select id="getUserCount" resultType="int">
+		SELECT COUNT(*) from user
+	</select>
+
+	<!-- 获取全部用户 -->
+	<select id="findAllUser" resultType="user">
+		SELECT * from user
+	</select>
+
+	<!-- 根据用户id获取用户 -->
+	<select id="getUserById" parameterType="int" resultType="user">
+		select *
+		from user where id = #{id}
+	</select>
+
+	<!-- 根据用户account获取用户 -->
+	<select id="getUserByAccount" parameterType="String" resultType="user">
+		select *
+		from user where account = #{account}
+	</select>
+
+	<!-- 根据用户id获取所有角色 -->
+	<select id="getRoleByUserId" parameterType="int" resultMap="role">
+		SELECT r.id as roleId, r.name as roleName FROM role r,user_role ur
+		WHERE ur.userId = #{id} AND ur.roleId = r.id
+	</select>
+
+
+	<!-- 获取需要提交报表成员 -->
+	<select id="findMemberUser" resultType="user">
+		SELECT
+		u.id,u.username
+		FROM USER u ,user_role ur
+		WHERE
+		u.`id`=ur.`userId` AND ur.`roleId`=3
+	</select>
+
+	<!-- 更改用户密码 -->
+	<update id="updatePassword">
+		update user set password=#{pass} where id=#{id}
+	</update>
+
+	<!-- 删除用户 -->
+	<delete id="delUser" parameterType="int">
+		delete user from user
+		where id=#{id}
+	</delete>
+
+	<!-- 更新用户 -->
+	<update id="updateUser" parameterType="user">
+		update user set
+		account=#{account},username=#{username} where id=#{id}
+
+	</update>
+</mapper>

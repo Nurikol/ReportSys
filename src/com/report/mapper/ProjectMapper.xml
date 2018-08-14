@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.ProjectMapper">
+
+
+	<!-- 添加项目 -->
+	<insert id="addProject" parameterType="project">
+		insert into
+		project(projectID,projectName,groupID)
+		values(#{projectID},#{projectName},#{groupID})
+	</insert>
+
+	<!-- 查询所有项目 -->
+	<select id="findAllProject" resultType="Project">
+		select * from project
+	</select>
+
+	<!-- 获取项目数量 <select id="getGroupCount" resultType="int"> select count(*) 
+		from groups </select> -->
+
+	<!-- 查询小组负责的项目 -->
+	<select id="findMyProjects" parameterType="int" resultType="project">
+		select * from project where GroupID = #{GroupID}
+	</select>
+
+	<!-- 删除项目 -->
+	<delete id="delProject" parameterType="int">
+		DELETE FROM project
+		WHERE projectID = #{projectID}
+	</delete>
+
+	<!-- 根据项目id获取项目 -->
+	<select id="getProjectById" parameterType="int" resultType="project">
+		select *
+		from project where projectID = #{projectID}
+	</select>
+</mapper>

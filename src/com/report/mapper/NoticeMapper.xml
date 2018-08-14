@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.report.mapper.NoticeMapper">
+	<!-- 添加系统公告至数据库 -->
+	<insert id="addNotice" parameterType="Notice">
+		insert into
+		notice(content,createTime) values(#{content},#{createTime})
+	</insert>
+
+	<!-- 从数据库删除系统公告 -->
+	<delete id="deleteNotice" parameterType="int">
+		delete notice from notice where id=#{id}
+	</delete>
+	
+	<!-- 获取所有系统公告列表 -->
+	<select id="findAllNotices" resultType="notice">
+		select * from notice
+	</select>
+
+</mapper>
